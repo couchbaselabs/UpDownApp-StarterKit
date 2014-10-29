@@ -20,7 +20,7 @@ public class TestPresentation {
     public static void tearDown() {
         // flush the bucket to make sure we have a clean state again
         AsyncBucket bucket = CouchbaseConnectionFactory.getDefaultConnection();
-        bucket.bucketManager().toBlocking().single().flush();
+        bucket.bucketManager().toBlocking().single().flush().toBlocking().single();
     }
 
     @BeforeClass
