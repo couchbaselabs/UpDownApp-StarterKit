@@ -1,14 +1,15 @@
-import com.couchbase.client.java.Bucket;
+import com.couchbase.client.java.AsyncBucket;
 import com.couchbase.client.java.error.CASMismatchException;
 import com.couchbase.updownapp.CouchbaseConnectionFactory;
 import com.couchbase.updownapp.Presentation;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
-
-
 import static org.junit.Assert.*;
 
 public class TestPresentation {
@@ -18,8 +19,8 @@ public class TestPresentation {
     @AfterClass
     public static void tearDown() {
         // flush the bucket to make sure we have a clean state again
-        Bucket bucket = CouchbaseConnectionFactory.getDefaultConnection();
-        bucket.bucketManager().toBlocking().single().flush().toBlocking().single();
+        AsyncBucket bucket = CouchbaseConnectionFactory.getDefaultConnection();
+        bucket.bucketManager().toBlocking().single().flush();
     }
 
     @BeforeClass
@@ -57,7 +58,7 @@ public class TestPresentation {
     public void testUpdate() {
         Presentation presentation = Presentation.find(testPresentation.getKey()).toBlocking().single();
         presentation.setUpVotes(1);
-        Presentation presentation1 = presentation.save().toBlocking().single(); // success saving
+        presentation.save().toBlocking().single(); // success saving
         presentation.setUpVotes(99);
         try {
             presentation.save().toBlocking().single(); // should fail saving again
