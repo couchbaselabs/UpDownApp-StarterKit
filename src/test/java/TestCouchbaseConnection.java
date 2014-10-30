@@ -1,4 +1,5 @@
 import com.couchbase.client.java.AsyncBucket;
+import com.couchbase.client.java.Bucket;
 import com.couchbase.updownapp.*;
 import org.junit.Test;
 
@@ -9,5 +10,10 @@ public class TestCouchbaseConnection {
     @Test
     public void testGetsConnection() {
         assertThat(CouchbaseConnectionFactory.getDefaultConnection(), instanceOf(AsyncBucket.class));
+    }
+    
+    @Test
+    public void testGetsSyncConnection() {
+        assertThat(CouchbaseConnectionFactory.getDefaultConnectionSync(), instanceOf(Bucket.class));
     }
 }
