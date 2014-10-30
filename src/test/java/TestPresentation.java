@@ -1,4 +1,4 @@
-import com.couchbase.client.java.AsyncBucket;
+import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.error.CASMismatchException;
 import com.couchbase.updownapp.CouchbaseConnectionFactory;
 import com.couchbase.updownapp.Presentation;
@@ -19,8 +19,8 @@ public class TestPresentation {
     @AfterClass
     public static void tearDown() {
         // flush the bucket to make sure we have a clean state again
-        AsyncBucket bucket = CouchbaseConnectionFactory.getDefaultConnection();
-        bucket.bucketManager().toBlocking().single().flush().toBlocking().single();
+        Bucket bucket = CouchbaseConnectionFactory.getDefaultConnectionSync();
+        bucket.bucketManager().flush();
     }
 
     @BeforeClass
